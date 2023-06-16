@@ -1,5 +1,8 @@
 # file_manager
 
+# 설치 시, 문제 발생
+1. vue create UnauthorizedAccess - vue.cmd create 프로젝트명
+
 ## 기능 정의
 
 1. 회원가입 및 로그인 기능
