@@ -1,0 +1,10 @@
+{
+  "name": "file_manager",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "description": "for manage file",
+  "scripts": {
+    "sdev": "cd server && npm run dev",
+    "cdev": "cd client && npm run serve"
+  }
+}
