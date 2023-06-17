@@ -1,26 +1,21 @@
 <template>
-  <div>TEST</div>
-  <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+<v-app>
+    <FileManagerMain />
+</v-app>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import FileManagerMain from './containers/FileManagerMain.vue'
 
-// export default {
-//   name: 'App',
-//   components: {
-//     HelloWorld
-//   }
-// }
-</script>
+export default {
+    name: 'App',
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    components: {
+        FileManagerMain,
+    },
+
+    data: () => ({
+        //
+    }),
 }
-</style>
+</script>
