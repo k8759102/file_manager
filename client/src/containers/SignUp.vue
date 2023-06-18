@@ -4,15 +4,23 @@
         <v-btn v-bind="props"> Sign Up </v-btn>
     </template>
 
+    <v-tooltip v-if="success" location="left">
+        <template v-slot:activator="{ on, attrs }">
+            <v-btn icon class="my-0" v-bind="attrs" @click="resetForm" v-on="on">
+                <v-icon>mdi-refresh</v-icon>
+            </v-btn>
+        </template>
+        <span>Refresh form</span>
+    </v-tooltip>
+
     <v-card>
-        <h1> {{ errorMessages }} </h1>
         <v-card-title>
             <span class="text-h5">Sign Up</span>
         </v-card-title>
         <v-card-text>
             <v-form ref="form" lazy-validation @submit.prevent="signup">
                 <TextField ref="name" v-model="name" label="이름" :rules="[rules.required, rules.nameCounter]" />
-                <TextField ref="emailID" v-model="emailID" label="ID (E-mail)" :rules="[rules.required, rules.email]" />
+                <TextField ref="userId" v-model="userId" label="ID (E-mail)" :rules="[rules.required, rules.email]" />
                 <TextField ref="password" v-model="password" type="password" label="비밀번호" :rules="[rules.required, rules.password]" />
                 <TextField ref="cPassword" v-model="cPassword" type="password" label="비밀번호 확인" :rules="[rules.required, checkPassword]" />
             </v-form>
@@ -31,6 +39,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import TextField from '../components/TextField.vue'
 
 export default {
@@ -39,10 +48,10 @@ export default {
     },
     data: () => ({
         dialog: true,
-        name: '김호준',
-        emailID: 'k8759102@gmail.com',
-        password: '!K8759102',
-        cPassword: '!K8759102',
+        name: 'test',
+        userId: 'test@test.com',
+        password: '!Root1234',
+        cPassword: '!Root1234',
         errorMessages: '',
 
         rules: {
@@ -64,7 +73,7 @@ export default {
         form() {
             return {
                 name: this.name,
-                emailID: this.emailID,
+                userId: this.userId,
                 password: this.password,
                 cPassword: this.cPassword,
             }
@@ -83,9 +92,27 @@ export default {
             const {
                 valid
             } = validationInfo;
+            const {
+                name,
+                userId,
+                password
+            } = this;
 
             if (valid) {
-                console.log('valid: ', valid)
+                const {
+                    data
+                } = await axios.post('http://localhost:3000/controllers/users/signup', {
+                    name,
+                    userId,
+                    password
+                });
+
+                if (data.code === 'SYS_MSG_0001') {
+                    console.log('data: ', data);
+                    // this.dialog = false;
+                    // this.$refs.form.reset();
+                    this.success = true;
+                }
             }
         }
     },
