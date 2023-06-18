@@ -14,9 +14,4 @@ module.exports = {
     code: "SYS_MSG_0003",
     message: "로그인 중에 문제가 발생 하였습니다",
   },
-  SIGNIN_FAILED: {
-    type: "error",
-    code: "SYS_MSG_0003",
-    message: "로그인 중에 문제가 발생 하였습니다",
-  },
 };
