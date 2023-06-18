@@ -4,7 +4,7 @@ const session = require("express-session");
 const passport = require("passport");
 const passportConfig = require("../security/passport");
 const helmet = require("helmet");
-const { COOKIE_SECRET, MAX_SESSION_MIN, APP_URL } = require("../config");
+const { SESSION_SECRET, MAX_SESSION_MIN, APP_URL } = require("../config");
 
 const app = new Express();
 
@@ -12,12 +12,12 @@ class ExpressServer {
   constructor() {
     app
       .use(helmet())
-      .use(cookieParser(COOKIE_SECRET))
+      .use(cookieParser())
       .use(
         session({
           resave: false,
           saveUninitialized: false,
-          secret: COOKIE_SECRET,
+          secret: SESSION_SECRET,
           cookie: {
             httpOnly: true,
             secure: false,

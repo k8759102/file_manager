@@ -4,15 +4,6 @@
         <v-btn v-bind="props"> Sign Up </v-btn>
     </template>
 
-    <v-tooltip v-if="success" location="left">
-        <template v-slot:activator="{ on, attrs }">
-            <v-btn icon class="my-0" v-bind="attrs" @click="resetForm" v-on="on">
-                <v-icon>mdi-refresh</v-icon>
-            </v-btn>
-        </template>
-        <span>Refresh form</span>
-    </v-tooltip>
-
     <v-card>
         <v-card-title>
             <span class="text-h5">Sign Up</span>
@@ -24,6 +15,7 @@
                 <TextField ref="password" v-model="password" type="password" label="비밀번호" :rules="[rules.required, rules.password]" />
                 <TextField ref="cPassword" v-model="cPassword" type="password" label="비밀번호 확인" :rules="[rules.required, checkPassword]" />
             </v-form>
+            <v-alert v-show="isAlert" type="error" title="에러 발생">{{ alertText }}</v-alert>
         </v-card-text>
         <v-card-actions>
             <v-spacer />
@@ -47,12 +39,14 @@ export default {
         TextField,
     },
     data: () => ({
-        dialog: true,
-        name: 'test',
-        userId: 'test@test.com',
-        password: '!Root1234',
-        cPassword: '!Root1234',
-        errorMessages: '',
+        dialog: false,
+        name: '',
+        userId: '',
+        password: '',
+        cPassword: '',
+
+        isAlert: false,
+        alertText: '',
 
         rules: {
             required: value => !!value || '필수 입력 값입니다.',
@@ -85,6 +79,7 @@ export default {
         },
         closeForm() {
             this.dialog = false;
+            this.isAlert = false;
             this.$refs.form.reset();
         },
         async submit() {
@@ -107,11 +102,14 @@ export default {
                     password
                 });
 
-                if (data.code === 'SYS_MSG_0001') {
-                    console.log('data: ', data);
-                    // this.dialog = false;
-                    // this.$refs.form.reset();
-                    this.success = true;
+                if (data.type === "success") {
+                    this.dialog = false;
+                    this.isAlert = false;
+                    this.$refs.form.reset();
+                }
+                if (data.type === "error") {
+                    this.isAlert = true;
+                    this.alertText = data.message;
                 }
             }
         }

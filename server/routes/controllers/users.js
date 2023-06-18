@@ -12,7 +12,7 @@ router.post("/auth", authenticateByJWT, async (req, res) => {
     res.json({ result: true });
   } catch (error) {
     console.error(error);
-    res.end();
+    res.status(400).send("ERROR");
   }
 });
 

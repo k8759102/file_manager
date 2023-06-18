@@ -10,12 +10,16 @@ const routes = (app) => {
     );
 
     console.log("Cookies: ", req.cookies);
-    console.log("Signed Cookies: ", req.signedCookies);
 
     // console.log(req.url);
     next();
   });
 
+  app.get("/", (req, res) => {
+    console.log("req.cookies:", req.cookies.cookieKey);
+    res.cookie("cookieKey", "cookieValue", { maxAge: 900000, httpOnly: true });
+    res.status(200).send("ok");
+  });
   // Controllers
   app.use("/controllers/users", users);
 };
