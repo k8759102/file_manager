@@ -10,7 +10,6 @@ const {
   SIGNIN_FAILED,
 } = require("../../constants/status");
 
-const MONTH_LATER = new Date() + 1 * 24 * 60 * 60 * 1000;
 const signin = (req, res) => {
   try {
     // passport local 인증 과정
@@ -36,10 +35,12 @@ const signin = (req, res) => {
           },
           JWT_SECRET
         );
-        console.log("token: ", token);
+        // console.log('token: ', token);
         res.cookie("token", token, {
-          expires: new Date(MONTH_LATER), // 쿠키의 만료일을 한 달 뒤로 설정
           httpOnly: true,
+          secure: true,
+          sameSite: 'none',
+          maxAge: 1000 * 60 * 60 * 24 * 30, // 한달
         });
         res.json(SIGNIN_SUCCESS);
       });

@@ -83,21 +83,24 @@ export default {
             } = this;
 
             if (valid) {
-                const result = await axios.post('http://localhost:3000/controllers/users/signin', {
+                const {
+                    data
+                } = await axios.post('/controllers/users/signin', {
                     userId,
                     password
+                }, {
+                    withCredentials: true,
                 });
-                console.log('result: ', result);
 
-                // if (data.type === "success") {
-                //     this.dialog = false;
-                //     this.isAlert = false;
-                //     this.$refs.form.reset();
-                // }
-                // if (data.type === "error") {
-                //     this.isAlert = true;
-                //     this.alertText = data.message;
-                // }
+                if (data.type === "success") {
+                    this.dialog = false;
+                    this.isAlert = false;
+                    this.$refs.form.reset();
+                }
+                if (data.type === "error") {
+                    this.isAlert = true;
+                    this.alertText = data.message;
+                }
             }
         }
     },

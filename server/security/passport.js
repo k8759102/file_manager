@@ -17,7 +17,7 @@ const passportVerify = async (userId, password, done) => {
       },
     });
     if (!user) {
-      done(null, false, { message: "존재하지 않는 사용자 입니다." });
+      done(null, false, { reason: "존재하지 않는 사용자 입니다." });
       return;
     }
 
@@ -30,7 +30,7 @@ const passportVerify = async (userId, password, done) => {
     done(null, user);
   } catch (error) {
     console.error(error);
-    done(error);
+    done(null, false, { reason: error.message });
   }
 };
 
@@ -56,7 +56,7 @@ const JWTVerify = async (payload, done) => {
     done(null, user);
   } catch (error) {
     console.error(error);
-    done(error);
+    done(null, false, { reason: error.message });
   }
 };
 
